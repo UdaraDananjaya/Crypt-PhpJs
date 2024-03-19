@@ -1,0 +1,26 @@
+<script src="JSEncrypt/bin/jsencrypt.js"></script>
+
+<button onclick="encrypt('Hi Im encrypted')">submit</button>
+
+<p id="demo"></p>
+
+<script>
+function encrypt(data) {
+    var encrypt = new JSEncrypt(); 
+    var publicKey = "-----BEGIN PUBLIC KEY----- MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDoRduCfEmv0Wa4Kgxmq/Jl5nkl 4cdg++DwEmHozbeQCmOvDMxXNWQMCvL9duafb8pjRoDZdNGNwWuz8cdgOy3dLgpW 5ufNa+YKXu4NuHUqgOBJTEnCOqn83w3PGufKoQqJrTWxJIfUVG1z7ieI1kJSaKQa DJfoXHZ7vH38wgkJ2wIDAQAB -----END PUBLIC KEY-----";
+    encrypt.setPublicKey(publicKey); 
+    var encrypted = encrypt.encrypt(data); 
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("POST", "decrypt.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("Enc=" + encodeURIComponent(encrypted));
+
+    return encrypted; 
+}
+</script>
